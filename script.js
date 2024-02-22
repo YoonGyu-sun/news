@@ -1,16 +1,45 @@
 const API_KEY = `34b60cd6736e43abb79ca9f9d2bf6b2b`
 let newsList = [];
-const getLatestNews = async()=>{
-    const url = new URL(`https://newsjs.netlify.app/top-headlines?page=1&pageSize=20&apiKey=${API_KEY}`); 
+const menus = document.querySelectorAll(".menus button");
+menus.forEach(menu=>menu.addEventListener("click", (event)=>{getNewsByCategory(event)})) /// button 클릭시 함수 실행
+
+
+let url = new URL (`https://newsjs.netlify.app/top-headlines?page=1&pageSize=20&apiKey=${API_KEY}`)
+
+const getNews = async() => {
     const response = await fetch(url);
     const data = await response.json();
-    console.log(response);
     newsList = data.articles;
     render();
-    console.log("기사", newsList);
+}
+
+const getLatestNews = async()=>{
+     url = new URL(`https://newsjs.netlify.app/top-headlines?page=1&pageSize=20&apiKey=${API_KEY}`); 
+    getNews();
+    
 }
 
 getLatestNews();
+
+
+
+const getNewsByCategory = async(event) => {         // 카테고리에 맞게 데이터보여주기
+    const category = event.target.textContent.toLowerCase();
+    console.log(category);
+     url = new URL(`https://newsjs.netlify.app/top-headlines?&category=${category}&page=1&pageSize=20&apiKey=${API_KEY}`);
+    getNews();
+    
+}
+
+
+const sch = async()=>{
+    let category = document.getElementById("search").value.toLowerCase();
+    console.log(category);
+     url = new URL(`https://newsjs.netlify.app/top-headlines?&category=${category}&page=1&pageSize=20&apiKey=${API_KEY}`);
+    getNews();
+}
+
+
 
 const render=()=>{
     const newsHTML = newsList.map

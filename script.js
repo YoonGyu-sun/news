@@ -7,10 +7,24 @@ menus.forEach(menu=>menu.addEventListener("click", (event)=>{getNewsByCategory(e
 let url = new URL (`https://newsjs.netlify.app/top-headlines?page=1&pageSize=20&apiKey=${API_KEY}`)
 
 const getNews = async() => {
-    const response = await fetch(url);
-    const data = await response.json();
-    newsList = data.articles;
-    render();
+    try{
+        const response = await fetch(url);
+        const data = await response.json();
+            if(response.status===200){
+                if(data.articles.length===0){
+                    throw new Error("결과가 없습니다.");
+                }
+                newsList = data.articles;
+                render();
+            }else{
+                throw new Error(data.message);
+            }
+    
+    }catch(error){
+        // console.log(error.message);
+        errorRender(error.message);
+    }
+    
 }
 
 const getLatestNews = async()=>{
@@ -63,6 +77,13 @@ const render=()=>{
 </div>`).join('');
     
     document.getElementById('news-boards').innerHTML = newsHTML;
+}
+
+const errorRender =(errorMessage) =>{
+    const errorHTML =`<div class="alert alert-danger" role="alert">
+                            ${errorMessage}
+                        </div>`;
+    document.getElementById("news-boards").innerHTML = errorHTML;
 }
 
 

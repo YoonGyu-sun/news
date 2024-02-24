@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <!-- 햄버거 메뉴 -->
+<section>
 <div id="mySidenav" class="sidenav">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
     <a href="#">Business</a>
@@ -19,20 +20,24 @@
     <a href="#">Technology</a>
     
   </div>
-  <span class="hambuger" style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;</span>
-<!-- 햄버거 메뉴 -->
-
-<!-- 검색 -->
-<span class="glasses">
-        <div onclick="search_open()">
-            🔍
+  <div class="top-line">
+        <div class="hambuger-menu">
+          <span class="hambuger" style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;</span>
         </div>
-        <div id="search-input">
-          <input type="text" id="search" name="search" placeholder="검색"/>
-          <button onclick="sch()">Go</button>
-        </div>
-    </span>
+        <!-- 햄버거 메뉴 -->
 
+        <!-- 검색 -->
+        <span class="glasses">
+                <div onclick="search_open()">
+                    🔍
+                </div>
+                <div id="search-input">
+                  <input type="text" id="search" name="search" placeholder="검색"/>
+                  <button onclick="sch()">Go</button>
+                </div>
+            </span>
+    </div>
+</section>
   <!-- 검색 -->
 
     <section class="container">
@@ -54,6 +59,11 @@
         <section id="news-boards">
             
         </section>
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+              
+            </ul>
+          </nav>
     </section>
 
 <body>

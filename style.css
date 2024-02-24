@@ -41,19 +41,28 @@
     transition: margin-left .5s;
     padding: 20px;
   }
-  
+ 
+  .top-line{
+    display: flex;
+  }
+    
+  .hambuger-menu{
+    display: none;
+    cursor: pointer;
+
+}
   /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
   @media screen and (max-width: 768px) {
     .sidenav {padding-top: 15px;}
     .sidenav a {font-size: 18px;}
-    .class{
+    .hambuger-menu{
         display:block;
     }
     .menus button{
         display:none;
     }
     .glasses{
-        display:none;
+        display:block;
     }
   }
   
@@ -72,12 +81,7 @@
 }
 
   /* 검색 */
-  
-  .hambuger{
-    display: block;
-    cursor: pointer;
 
-}
 
 
 .head-line{

@@ -4,10 +4,19 @@ const menus = document.querySelectorAll(".menus button");
 menus.forEach(menu=>menu.addEventListener("click", (event)=>{getNewsByCategory(event)})) /// button 클릭시 함수 실행
 
 
-let url = new URL (`https://newsjs.netlify.app/top-headlines?page=1&pageSize=20&apiKey=${API_KEY}`)
+let url = new URL (`https://newsjs.netlify.app/top-headlines?country=kr&apiKey=${API_KEY}`)
+
+let totalResults = 0;
+let page = 1;
+let pageSize = 10;
+let groupSize = 5;
+
+
 
 const getNews = async() => {
     try{
+        url.searchParams.set("page", page);
+        url.searchParams.set("pageSize", pageSize);
         const response = await fetch(url);
         const data = await response.json();
             if(response.status===200){
@@ -15,7 +24,11 @@ const getNews = async() => {
                     throw new Error("결과가 없습니다.");
                 }
                 newsList = data.articles;
+                totalResults = data.totalResults;
+                console.log(newsList);
+                console.log(totalResults);
                 render();
+                paginationRender();
             }else{
                 throw new Error(data.message);
             }
@@ -39,7 +52,7 @@ getLatestNews();
 
 const getNewsByCategory = async(event) => {         // 카테고리에 맞게 데이터보여주기
     const category = event.target.textContent.toLowerCase();
-    console.log(category);
+    // console.log(category);
      url = new URL(`https://newsjs.netlify.app/top-headlines?&category=${category}&page=1&pageSize=20&apiKey=${API_KEY}`);
     getNews();
     
@@ -48,7 +61,7 @@ const getNewsByCategory = async(event) => {         // 카테고리에 맞게 �
 
 const sch = async()=>{
     let category = document.getElementById("search").value.toLowerCase();
-    console.log(category);
+    // console.log(category);
      url = new URL(`https://newsjs.netlify.app/top-headlines?&category=${category}&page=1&pageSize=20&apiKey=${API_KEY}`);
     getNews();
 }
@@ -86,6 +99,35 @@ const errorRender =(errorMessage) =>{
     document.getElementById("news-boards").innerHTML = errorHTML;
 }
 
+const paginationRender = () => {
+    const totalPages = Math.ceil(totalResults / pageSize);
+
+    // 페이지 그룹
+    const pageGroup = Math.ceil(page / groupSize);
+    // console.log(pageGroup);
+    // 마지막 페이지
+    const lastPage = pageGroup * groupSize;
+    // console.log(lastPage);
+    if(lastPage > totalPages){
+        lastPage=totalPages;
+    }
+    
+    // 첫 페이지
+    const firstPage = lastPage - (groupSize -1)<=0? 1:lastPage-(groupSize-1);
+    
+    // console.log(firstPage);
+    let pagenationHTML=``;
+        for(let i=firstPage; i<=lastPage; i++){
+            pagenationHTML +=`<li class="page-item ${i===page?"active":""}" onclick="moveToPage(${i})"><a class="page-link">${i}</a></li>`
+        }
+
+    document.querySelector(".pagination").innerHTML=pagenationHTML;
+}
+
+const moveToPage = (pageNum) => {
+    page=pageNum;
+    getNews();
+}
 
 // 반응형 햄버거 메뉴
 function openNav() {

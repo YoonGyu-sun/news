@@ -101,27 +101,24 @@ const errorRender =(errorMessage) =>{
 
 const paginationRender = () => {
     const totalPages = Math.ceil(totalResults / pageSize);
-
-    // 페이지 그룹
-    const pageGroup = Math.ceil(page / groupSize);
-    // console.log(pageGroup);
-    // 마지막 페이지
-    const lastPage = pageGroup * groupSize;
-    // console.log(lastPage);
-    if(lastPage > totalPages){
-        lastPage=totalPages;
+    let pageGroup = Math.ceil(page / groupSize);
+    let lastPage = pageGroup * groupSize;
+    
+    if (lastPage > totalPages) {
+        lastPage = totalPages;
     }
     
-    // 첫 페이지
-    const firstPage = lastPage - (groupSize -1)<=0? 1:lastPage-(groupSize-1);
+    let firstPage = lastPage - (groupSize - 1) <= 0 ? 1 : lastPage - (groupSize - 1);
     
-    // console.log(firstPage);
-    let pagenationHTML=``;
-        for(let i=firstPage; i<=lastPage; i++){
-            pagenationHTML +=`<li class="page-item ${i===page?"active":""}" onclick="moveToPage(${i})"><a class="page-link">${i}</a></li>`
-        }
+    let pagenationHTML = ``;
+    let previousHTML = `<li class="page-item"><a class="page-link" onclick="moveToPage(${1})">Previous</a></li>`;
+    let nextHTML = `<li class="page-item"><a class="page-link" onclick="moveToPage(${totalPages})">Next</a></li>`;
+    
+    for (let i = firstPage; i <= lastPage; i++) {
+        pagenationHTML += `<li class="page-item ${i === page ? "active" : ""}" onclick="moveToPage(${i})"><a class="page-link">${i}</a></li>`;
+    }
 
-    document.querySelector(".pagination").innerHTML=pagenationHTML;
+    document.querySelector(".pagination").innerHTML = previousHTML + pagenationHTML + nextHTML;
 }
 
 const moveToPage = (pageNum) => {

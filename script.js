@@ -111,14 +111,22 @@ const paginationRender = () => {
     let firstPage = lastPage - (groupSize - 1) <= 0 ? 1 : lastPage - (groupSize - 1);
     
     let pagenationHTML = ``;
+    let leftPrevHTML =  ``;
+    let rightNextHTML =  ``;
+
+    leftPrevHTML = page > 1 ? `<li class="page-item"><a class="page-link" onclick="moveToPage(${1})"> << </a></li>` : '' ;
+
     let previousHTML = page > 1 ? `<li class="page-item"><a class="page-link" onclick="moveToPage(${page - 1})">Previous</a></li>` : '';
-    let nextHTML = page < totalPages ? `<li class="page-item"><a class="page-link" onclick="moveToPage(${page + 1})">Next</a></li>` : '';
     
     for (let i = firstPage; i <= lastPage; i++) {
         pagenationHTML += `<li class="page-item ${i === page ? "active" : ""}" onclick="moveToPage(${i})"><a class="page-link">${i}</a></li>`;
     }
 
-    document.querySelector(".pagination").innerHTML = previousHTML + pagenationHTML + nextHTML;
+    let nextHTML = page < totalPages ? `<li class="page-item"><a class="page-link" onclick="moveToPage(${page + 1})">Next</a></li>` : '';
+
+    rightNextHTML = page < totalPages ? `<li class="page-item"><a class="page-link" onclick="moveToPage(${totalPages})"> >> </a></li>` : '' ;
+
+    document.querySelector(".pagination").innerHTML = leftPrevHTML + previousHTML + pagenationHTML + nextHTML + rightNextHTML;
 }
 
 const moveToPage = (pageNum) => {
